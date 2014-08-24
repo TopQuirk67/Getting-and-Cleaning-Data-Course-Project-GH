@@ -23,7 +23,9 @@ The code uses the grep() function to search for "mean()" and "std()" in features
 
 As a result, the features of the original data set which we have extracted are shown below.  In this list, the integer is the index of the feature in the original data set, i.e. the column number in X_test or X_train corresponding to this feature.  The names describe the type of measurement performed, i.e. tBodyAcc-mean()-X describes a time series of acceleration for the body on the smartphone X axis, and is the mean of the measurement.  
 
-These labels are used to create column headings for the intermediate data frame.
+These labels are used to create column headings for the intermediate data frame all.dataframe.  Using gsub, these 
+variable names are extended to make them more descriptive as shown below.  The index number before each variable shows what column of the raw data that variable appears in.  We use this later for formatted read-in taking advantage of the 
+16 character width of each column.
 
 1 tBodyAcc-mean()-X
 2 tBodyAcc-mean()-Y
@@ -92,25 +94,25 @@ These labels are used to create column headings for the intermediate data frame.
 542 fBodyBodyGyroJerkMag-mean()
 543 fBodyBodyGyroJerkMag-std()
 
-name substitutions:
+name substitutions, where we have neglected the additional dimensions of X,Y,Z and mean,std shown above.
 
-"tBodyAcc-"             "tBodyAcc_Time_Domain_Body_Vector_Linear_Acceleration_from_Accelerometer-"             cross mean(),std() cross X,Y,Z
-"tGravityAcc-"          "tGravityAcc_Time_Domain_Gravity_Vector_Linear_Acceleration_from_Accelerometer-"       cross mean(),std() cross X,Y,Z
-"tBodyAccJerk-"         "tBodyAccJerk_Time_Domain_Body_Vector_Linear_Jerk_from_Accelerometer-"                 cross mean(),std() cross X,Y,Z
-"tBodyGyro-"            "tBodyGyro_Time_Domain_Body_Vector_Angular_Acceleration_from_Gyroscope-"               cross mean(),std() cross X,Y,Z
-"tBodyGyroJerk-"        "tBodyGyroJerk_Time_Domain_Body_Vector_Angular_Jerk_from_Gyroscope-"                   cross mean(),std() cross X,Y,Z
-"tBodyAccMag-"          "tBodyAccMag_Time_Domain_Body_Scalar_Linear_Acceleration_from_Accelerometer-"          cross mean(),std()
-"tGravityAccMag-"       "tGravityAccMag_Time_Domain_Gravity_Scalar_Linear_Acceleration_from_Accelerometer-"    cross mean(),std()
-"tBodyAccJerkMag-"      "tBodyAccJerkMag_Time_Domain_Body_Scalar_Linear_Jerk_from_Accelerometer-"              cross mean(),std()
-"tBodyGyroMag-"         "tBodyGyroMag_Time_Domain_Body_Scalar_Angular_Acceleration_from_Gyroscope-"            cross mean(),std()
-"tBodyGyroJerkMag-"     "tBodyGyroJerkMag_Time_Domain_Body_Scalar_Angular_Jerk_from_Gyroscope-"                cross mean(),std()
-"fBodyAcc-"             "fBodyAcc_Frequency_Domain_Body_Vector_Linear_Acceleration_from_Accelerometer-"        cross mean(),std() cross X,Y,Z
-"fBodyAccJerk-"         "fBodyAccJerk_Frequency_Domain_Body_Vector_Linear_Jerk_from_Accelerometer-"            cross mean(),std() cross X,Y,Z
-"fBodyGyro-"            "fBodyGyro_Frequency_Domain_Body_Vector_Angular_Acceleration_from_Gyroscope-"          cross mean(),std() cross X,Y,Z
-"fBodyAccMag-"          "fBodyAccMag_Frequency_Domain_Body_Scalar_Linear_Acceleration_from_Accelerometer-"     cross mean(),std()
-"fBodyBodyAccJerkMag-"  "fBodyBodyAccJerkMag_Frequency_Domain_Body_Scalar_Linear_Jerk_from_Accelerometer-"     cross mean(),std()
-"fBodyBodyGyroMag-"     "fBodyBodyGyroMag_Frequency_Domain_Body_Scalar_Angular_Acceleration_from_Gyroscope-"   cross mean(),std()
-"fBodyBodyGyroJerkMag-" "fBodyBodyGyroJerkMag_Frequency_Domain_Body_Scalar_Angular_Jerk_from_Gyroscope-"       cross mean(),std()
+"tBodyAcc-"             "tBodyAcc_Time_Domain_Body_Vector_Linear_Acceleration_from_Accelerometer-"
+"tGravityAcc-"          "tGravityAcc_Time_Domain_Gravity_Vector_Linear_Acceleration_from_Accelerometer-"
+"tBodyAccJerk-"         "tBodyAccJerk_Time_Domain_Body_Vector_Linear_Jerk_from_Accelerometer-"
+"tBodyGyro-"            "tBodyGyro_Time_Domain_Body_Vector_Angular_Acceleration_from_Gyroscope-"
+"tBodyGyroJerk-"        "tBodyGyroJerk_Time_Domain_Body_Vector_Angular_Jerk_from_Gyroscope-"
+"tBodyAccMag-"          "tBodyAccMag_Time_Domain_Body_Scalar_Linear_Acceleration_from_Accelerometer-"
+"tGravityAccMag-"       "tGravityAccMag_Time_Domain_Gravity_Scalar_Linear_Acceleration_from_Accelerometer-"
+"tBodyAccJerkMag-"      "tBodyAccJerkMag_Time_Domain_Body_Scalar_Linear_Jerk_from_Accelerometer-"
+"tBodyGyroMag-"         "tBodyGyroMag_Time_Domain_Body_Scalar_Angular_Acceleration_from_Gyroscope-"
+"tBodyGyroJerkMag-"     "tBodyGyroJerkMag_Time_Domain_Body_Scalar_Angular_Jerk_from_Gyroscope-"
+"fBodyAcc-"             "fBodyAcc_Frequency_Domain_Body_Vector_Linear_Acceleration_from_Accelerometer-"
+"fBodyAccJerk-"         "fBodyAccJerk_Frequency_Domain_Body_Vector_Linear_Jerk_from_Accelerometer-"
+"fBodyGyro-"            "fBodyGyro_Frequency_Domain_Body_Vector_Angular_Acceleration_from_Gyroscope-"
+"fBodyAccMag-"          "fBodyAccMag_Frequency_Domain_Body_Scalar_Linear_Acceleration_from_Accelerometer-"
+"fBodyBodyAccJerkMag-"  "fBodyBodyAccJerkMag_Frequency_Domain_Body_Scalar_Linear_Jerk_from_Accelerometer-"
+"fBodyBodyGyroMag-"     "fBodyBodyGyroMag_Frequency_Domain_Body_Scalar_Angular_Acceleration_from_Gyroscope-"
+"fBodyBodyGyroJerkMag-" "fBodyBodyGyroJerkMag_Frequency_Domain_Body_Scalar_Angular_Jerk_from_Gyroscope-"
 
 The code run_analysis.R works to limit the memory needs of the analysis; it reads in only the numerical feature data it needs and neglects all the others.  It accomplishes this by using the read.fortran() function after constructing a fortran-style format statement which can skip over irrelevant data by assuming that each column is a 16 character fixed width and that the column numbers are given as above for the features of interest.  So we only read in and store the 66 columns of interest rather than all 561 columns.
 
@@ -121,5 +123,11 @@ activity numerical index ("actidx", 1-6)
 activity label ("activity.label", WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING, extracted automatically from the file activity_labels.txt) 
 group ("group", test or train)
 and 66 the mean() and std() features listed in detail above.
+
+The output of run_analysis is a data frame (internally this is means.Melt) containing means across 
+each of the 66 numerical features listed above.  
+
+Detailed description of the output data frame coding can be found in CODE BOOK in this repository.
+
 
 
