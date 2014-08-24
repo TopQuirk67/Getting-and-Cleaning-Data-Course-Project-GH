@@ -2,8 +2,13 @@ Code Book for Gareth Houk's Getting and Cleaning Data Course Project.
 
 Philosophy:
 
-The philosophy of this dataset is to make things easy for the grader.  In that spirit, I have made descriptive names for the features and combined them with the original labels (although I have removed the parentheses from "mean()" and "std()" to make it easier to use R with these dataframes).  The mapping is as follows for the feature names:
+The philosophy of this dataset is to make things easy for the grader.  In that spirit, I have made 
+descriptive names for the features and combined them with the original labels (although I have removed the 
+parentheses from "mean()" and "std()" to make it easier to use R with these dataframes).  The mapping is as 
+follows for the feature names:
 
+Original Label          New Concatenated Label                                                                 additional dimensions
+in UCI data set         with original label and longer description.
 
 "tBodyAcc-"             "tBodyAcc_Time_Domain_Body_Vector_Linear_Acceleration_from_Accelerometer-"             cross mean(),std() cross X,Y,Z
 "tGravityAcc-"          "tGravityAcc_Time_Domain_Gravity_Vector_Linear_Acceleration_from_Accelerometer-"       cross mean(),std() cross X,Y,Z
@@ -27,8 +32,18 @@ The "cross" above means, for example, that for each of the features "tBodyAcc_Ti
 
 
 CODE BOOK
+SUMMARIZED SMART PHONE ACCELEROMETER AND GYROSCOPE DATA
+FOR 30 SUBJECTS ACROSS 6 ACTIVITIES
 
-subject ("subject", 1-30) 
+Note: This code book describes the variables in the returned variable from run_analysis.R, i.e means.Melt.
+At the end of this document, the additional variables in the main internal dataframe, all.dataframe, are described.
+
+This code book is in order of the variables in the data frame means.Melt, not in alphabetical order.
+
+subject   2 
+  Subject
+          1..30   .Unique Integer Identifier assigned to each subject, i.e. person, who
+                  .volunteered to take part in the inertial data collection study
 
 activity numerical index ("actidx", 1-6) 
 
